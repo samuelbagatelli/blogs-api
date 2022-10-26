@@ -1,9 +1,13 @@
 require('dotenv').config();
 const app = require('./app');
 
-const { UserController } = require('./controllers');
+const { UserController, CategoryController } = require('./controllers');
 
-const { loginMiddlewares, createUserMiddlewares } = require('./middlewares');
+const { 
+  loginMiddlewares, 
+  createUserMiddlewares,
+  categoriesMiddlewares,
+} = require('./middlewares');
 
 const validateJWT = require('./auth/validateJWT');
 
@@ -21,6 +25,13 @@ app.get('/', (_request, response) => {
 app.get('/user/:id', validateJWT, UserController.getUserById);
 
 app.get('/user', validateJWT, UserController.getAllUsers);
+
+app.post(
+  '/categories', 
+  validateJWT, 
+  categoriesMiddlewares.validateNameField, 
+  CategoryController.createCategory,
+);
 
 app.post('/login', ...accessMiddlewares, UserController.loginController);
 
