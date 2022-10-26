@@ -5,6 +5,8 @@ const { UserController } = require('./controllers');
 
 const { loginMiddlewares, createUserMiddlewares } = require('./middlewares');
 
+const validateJWT = require('./auth/validateJWT');
+
 const accessMiddlewares = Object.values(loginMiddlewares);
 const creationMiddlewares = Object.values(createUserMiddlewares);
 
@@ -15,6 +17,8 @@ const port = process.env.API_PORT || 3000;
 app.get('/', (_request, response) => {
   response.send();
 });
+
+app.get('/user', validateJWT, UserController.getAllUsers);
 
 app.post('/login', ...accessMiddlewares, UserController.loginController);
 

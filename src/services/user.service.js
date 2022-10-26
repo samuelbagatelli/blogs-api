@@ -1,5 +1,17 @@
 const { User } = require('../models');
 
+const getAllUsers = async () => {
+  const users = await User.findAll();
+
+  return users;
+};
+
+const getUserById = async (id) => {
+  const user = await User.findByPk(id);
+
+  return user;
+};
+
 const getUser = async (email, password) => {
   const user = await User.findOne({ where: { email, password } });
 
@@ -19,6 +31,8 @@ const createUser = async (body) => {
 };
 
 module.exports = {
+  getAllUsers,
+  getUserById,
   getUser,
   getEmail,
   createUser,

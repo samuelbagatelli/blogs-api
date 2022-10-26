@@ -17,8 +17,6 @@ module.exports = async (req, res) => {
 
     const token = jwt.sign({ data: { userId: user.id } }, secret, jwtConfig);
 
-    console.log(token);
-
     return token;
   } catch (error) {
     return res.status(500).json({ message: 'Erro interno', error: error.message });
