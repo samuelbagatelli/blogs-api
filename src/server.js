@@ -6,7 +6,7 @@ const { UserController, CategoryController } = require('./controllers');
 const { 
   loginMiddlewares, 
   createUserMiddlewares,
-  categoriesMiddlewares,
+  categoriesMiddlewares: { validateNameField },
 } = require('./middlewares');
 
 const validateJWT = require('./auth/validateJWT');
@@ -29,9 +29,11 @@ app.get('/user', validateJWT, UserController.getAllUsers);
 app.post(
   '/categories', 
   validateJWT, 
-  categoriesMiddlewares.validateNameField, 
+  validateNameField, 
   CategoryController.createCategory,
 );
+
+app.get('/categories', validateJWT, CategoryController.getAllCategories);
 
 app.post('/login', ...accessMiddlewares, UserController.loginController);
 
