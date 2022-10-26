@@ -1,11 +1,12 @@
 require('dotenv').config();
 const app = require('./app');
 
-const { login } = require('./controllers');
+const { UserController } = require('./controllers');
 
-const { userMiddlewares } = require('./middlewares');
+const { loginMiddlewares, createUserMiddlewares } = require('./middlewares');
 
-const loginMiddlewares = Object.values(userMiddlewares);
+const accessMiddlewares = Object.values(loginMiddlewares);
+const creationMiddlewares = Object.values(createUserMiddlewares);
 
 // não remova a variável `API_PORT` ou o `listen`
 const port = process.env.API_PORT || 3000;
@@ -15,6 +16,8 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-app.post('/login', ...loginMiddlewares, login);
+app.post('/login', ...accessMiddlewares, UserController.loginController);
+
+app.post('/user', ...creationMiddlewares, UserController.createUser);
 
 app.listen(port, () => console.log('ouvindo porta', port));

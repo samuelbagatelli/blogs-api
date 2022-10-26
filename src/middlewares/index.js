@@ -1,5 +1,7 @@
-const userMiddlewares = require('./user.middleware');
+const loginMiddlewares = require('./login.middleware');
+const createUserMiddlewares = require('./createUser.middleware');
 
 module.exports = {
-  userMiddlewares,
+  loginMiddlewares,
+  createUserMiddlewares,
 };
