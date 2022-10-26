@@ -18,6 +18,8 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
+app.get('/user/:id', validateJWT, UserController.getUserById);
+
 app.get('/user', validateJWT, UserController.getAllUsers);
 
 app.post('/login', ...accessMiddlewares, UserController.loginController);

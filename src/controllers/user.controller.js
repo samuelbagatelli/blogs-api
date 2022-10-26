@@ -16,20 +16,22 @@ const createUser = async (req, res) => {
 const getAllUsers = async (_req, res) => {
   const users = await UserService.getAllUsers();
 
-  const transform = JSON.stringify(users);
+  return res.status(200).json(users);
+};
 
-  const undo = JSON.parse(transform);
+const getUserById = async (req, res) => {
+  const user = await UserService.getUserById(req.params.id);
 
-  const allUsers = undo.reduce((acc, curr) => {
-    const { password, ...safeUsers } = curr;
-    return [...acc, safeUsers];
-  }, []);
+  if (!user) {
+    return res.status(404).json({ message: 'User does not exist' });
+  }
 
-  return res.status(200).json(allUsers);
+  return res.status(200).json(user);
 };
 
 module.exports = {
   loginController,
   createUser,
   getAllUsers,
+  getUserById,
 };
