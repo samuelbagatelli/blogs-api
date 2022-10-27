@@ -1,18 +1,20 @@
 require('dotenv').config();
 const app = require('./app');
 
-const { UserController, CategoryController } = require('./controllers');
+const { UserController, CategoryController, PostController } = require('./controllers');
 
 const { 
   loginMiddlewares, 
   createUserMiddlewares,
   categoriesMiddlewares: { validateNameField },
+  postsMiddlewares,
 } = require('./middlewares');
 
 const validateJWT = require('./auth/validateJWT');
 
 const accessMiddlewares = Object.values(loginMiddlewares);
 const creationMiddlewares = Object.values(createUserMiddlewares);
+const blogPostsMiddlewares = Object.values(postsMiddlewares);
 
 // não remova a variável `API_PORT` ou o `listen`
 const port = process.env.API_PORT || 3000;
@@ -34,6 +36,8 @@ app.post(
 );
 
 app.get('/categories', validateJWT, CategoryController.getAllCategories);
+
+app.post('/post', validateJWT, ...blogPostsMiddlewares, PostController.createPost);
 
 app.post('/login', ...accessMiddlewares, UserController.loginController);
 

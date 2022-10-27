@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 
 require('dotenv/config');
-const { UserService } = require('../services');
 
 const secret = process.env.JWT_SECRET;
 
@@ -15,9 +14,7 @@ module.exports = async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, secret);
 
-    const user = await UserService.getUserById(decoded.data.userId);
-
-    req.user = user;
+    req.user = decoded.data;
 
     next();
   } catch (error) {
