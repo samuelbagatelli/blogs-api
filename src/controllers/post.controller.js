@@ -1,5 +1,15 @@
 const { PostService } = require('../services');
 
+const getAllPosts = async (_req, res) => {
+  try {
+    const posts = await PostService.getAllPosts();
+    return res.status(200).json(posts);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
+};
+
 const createPost = async (req, res) => {
   try {
     const { userId } = req.user;
@@ -18,5 +28,6 @@ const createPost = async (req, res) => {
 };
 
 module.exports = {
+  getAllPosts,
   createPost,
 };

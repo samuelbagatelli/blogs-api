@@ -39,6 +39,8 @@ app.get('/categories', validateJWT, CategoryController.getAllCategories);
 
 app.post('/post', validateJWT, ...blogPostsMiddlewares, PostController.createPost);
 
+app.get('/post', validateJWT, PostController.getAllPosts);
+
 app.post('/login', ...accessMiddlewares, UserController.loginController);
 
 app.post('/user', ...creationMiddlewares, UserController.createUser);

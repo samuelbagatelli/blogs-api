@@ -16,8 +16,6 @@ const validateCategoryId = async (req, res, next) => {
 
     const result = await PostService.getByCategoryId(categoryIds);
 
-    console.log(result);
-
     const validation = result.some((element) => element === null);
 
     if (validation) { 
