@@ -1,38 +1,20 @@
 const { BlogPost, PostCategory, Category, User } = require('../models');
 
-const treatAllPosts = async (posts) => {
-  const promises = posts.map(async ({ dataValues }) => {
-    const user = await User.findByPk(dataValues.userId);
-
-    const postsCategories = await PostCategory.findAll({ where: { postId: dataValues.id } });
-
-    const newPromisses = postsCategories.map(async (element) => {
-      const category = await Category.findByPk(element.dataValues.categoryId);
-
-      return category.dataValues;
+const getAllPosts = async () => {
+  try {
+    const posts = await BlogPost.findAll({
+      include: [
+        { model: User, as: 'user', attributes: { exclude: ['password'] } },
+        { model: Category, as: 'categories' },
+      ],
     });
 
-    const response = await Promise.all(newPromisses);
-
-    const { password, ...userObj } = user.dataValues;
-
-    const result = {
-      ...dataValues,
-      user: userObj,
-      categories: response,
-    };
-    return result;
-  });
-
-  const users = await Promise.all(promises);
-
-  return users;
-};
-
-const getAllPosts = async () => {
-  const posts = await BlogPost.findAll();
-
-  return treatAllPosts(posts);
+    console.log(posts[0].dataValues);
+    return posts;
+  } catch (e) {
+    console.log(e);
+    return e;
+  }
 };
 
 const getByCategoryId = async (ids) => {
