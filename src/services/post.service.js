@@ -1,20 +1,25 @@
 const { BlogPost, PostCategory, Category, User } = require('../models');
 
 const getAllPosts = async () => {
-  try {
-    const posts = await BlogPost.findAll({
-      include: [
-        { model: User, as: 'user', attributes: { exclude: ['password'] } },
-        { model: Category, as: 'categories' },
-      ],
-    });
+  const posts = await BlogPost.findAll({
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories' },
+    ],
+  });
 
-    console.log(posts[0].dataValues);
-    return posts;
-  } catch (e) {
-    console.log(e);
-    return e;
-  }
+  return posts;
+};
+
+const getPostsById = async (id) => {
+  const post = await BlogPost.findByPk(id, {
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories' },
+    ],
+  });
+
+  return post;
 };
 
 const getByCategoryId = async (ids) => {
@@ -43,6 +48,7 @@ const createPost = async (newPost) => {
 
 module.exports = {
   getAllPosts,
+  getPostsById,
   getByCategoryId,
   createPost,
 };

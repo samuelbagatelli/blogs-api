@@ -41,6 +41,8 @@ app.post('/post', validateJWT, ...blogPostsMiddlewares, PostController.createPos
 
 app.get('/post', validateJWT, PostController.getAllPosts);
 
+app.get('/post/:id', validateJWT, PostController.getPostsById);
+
 app.post('/login', ...accessMiddlewares, UserController.loginController);
 
 app.post('/user', ...creationMiddlewares, UserController.createUser);
