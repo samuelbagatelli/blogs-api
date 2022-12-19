@@ -9,7 +9,7 @@ Para realizar o projeto foram seguidos os princípios do REST para criar a API.
 
 Como regra de negócio, para fazer um post é necessário usuário e login, portanto, há relação entre `user` e `post`.
 
-__Caso queira acessar a aplicação em funcionamento:__ *link*
+__Infelizmente, ainda estou construindo a seção visual e de interação__
 
 <br />
 
