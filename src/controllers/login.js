@@ -11,7 +11,6 @@ module.exports = async (req, res) => {
     const user = await UserService.getUser(email, password);
 
     const jwtConfig = {
-      expiresIn: '7d',
       algorithm: 'HS256',
     };
 
